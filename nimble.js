@@ -198,4 +198,4 @@
         });
     };
 
-}(typeof window == 'undefined' ? exports: window._ = {}));
+}(typeof exports == 'undefined' ? this._ = {}: exports));
