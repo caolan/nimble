@@ -1,0 +1,576 @@
+<html>
+  <head>
+    <title>Nimble</title>
+    <link  href="http://fonts.googleapis.com/css?family=Neuton:regular,italic" rel="stylesheet" type="text/css" >
+    <link rel="stylesheet" href="site/ir_black.min.css">
+    <style>
+      body {
+        font-size: 14px;
+        font-family: Helvetica, Arial, 'Free-Sans', sans-serif;
+        padding: 1.618em;
+        background-image: url(site/bg.png);
+        line-height: 1.436;
+      }
+      pre code {
+        font-family: 'Monospace', monospace !important;
+      }
+      h1 {
+        font-family: 'Neuton', serif;
+        font-size: 4.236em;
+        font-style: italic;
+        font-weight: 700;
+        text-shadow: 0px 1px 0px #ffffff;
+        filter: dropshadow(color=#ffffff,offX=0,offY=1);
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: -0.05em;
+        word-spacing: 0em;
+        line-height: 1.2;
+        margin: 0.3em;
+        padding: 0;
+        display: inline;
+      }
+      h2 {
+        font-size: 1.618em;
+        font-weight: bold;
+        margin: 0.426em 0 0.618em 0;
+        padding: 0;
+      }
+      p {
+        padding: 0;
+        margin: 1em 0 1.618em 0;
+      }
+      .download {
+        text-shadow: -1px -1px 2px white;
+        filter: dropshadow(color=#ffffff,offX=0,offY=1);
+      }
+      .size {
+        color: #666;
+      }
+      .section {
+        float: left;
+        padding: 14px 37px 9px 23px;
+        background-color: white;
+        border: 1px solid #999;
+        margin: 1em 1.618em;
+        width: 840px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        box-shadow: 1px 1px 3px #bbb;
+        position: relative;
+        overflow: hidden;
+      }
+      .code {
+        border-radius: 0px;
+        -moz-border-radius: 0px;
+      }
+      .example,
+      .description,
+      .result {
+        float: left;
+        width: 390px;
+        padding: 14px 37px 9px 23px;
+        position: relative;
+        left: 450px;
+        display: block;
+      }
+      .example {
+        padding: 14px 37px 0px 23px;
+        margin-bottom: -5px;
+      }
+      .description,
+      .result {
+        color: black;
+      }
+      .example {
+        color: white;
+      }
+      .result h2 {
+        text-shadow: 0px 1px 0px #ffffff;
+      }
+      .result {
+        display: none;
+      }
+      .show_result .result {
+        display: block;
+      }
+      .show_result .description {
+        display: none;
+      }
+      .example pre code {
+        padding: 0 0 0 1px;
+        margin: 1em 0 1em 0;
+      }
+      .result pre code {
+        background-color: transparent;
+        color: black;
+        padding: 0 0 0 1px;
+        margin: 1em 0 1.618em 0;
+      }
+      .clear {
+        clear: left;
+        height: 1.618em;
+      }
+      .button {
+        margin-right: 0.324em;
+        text-decoration: none;
+        color: black;
+        background: #BBBBBB;
+        border: 1px solid #666;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        display: inline;
+        padding: 0.5em 1.5em;
+        cursor: pointer;
+        text-shadow: 0px 1px 0px #DDDDDD;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0, #999999),
+            color-stop(0.5, #DDDDDD)
+        );
+        background-image: -moz-linear-gradient(
+            center bottom,
+            #999999 0%,
+            #DDDDDD 50%
+        );
+      }
+      .button:hover {
+        background: #999999;
+        text-shadow: none;
+      }
+      .button:active {
+        position: relative;
+        top: 1px;
+      }
+      .downloadbtn {
+        background: #222222;
+        text-shadow: 0px 1px 0px #444444;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0, #000000),
+            color-stop(0.5, #444444)
+        );
+        background-image: -moz-linear-gradient(
+            center bottom,
+            #000000 0%,
+            #444444 50%
+        );
+        color: white;
+      }
+      .downloadbtn:hover {
+        background: black;
+      }
+      .runbtn {
+        background: #DBF3C8;
+        text-shadow: 0px 1px 0px #DBF3C8;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0, #5DA966),
+            color-stop(0.5, #DBF3C8)
+        );
+        background-image: -moz-linear-gradient(
+            center bottom,
+            #5DA966 0%,
+            #DBF3C8 50%
+        );
+      }
+      .runbtn:hover {
+        background: #5DA966;
+        text-shadow: none;
+      }
+      .leftbg {
+        float: left;
+        width: 900px;
+        position: relative;
+        right: 450px;
+        background: black;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+      .rightbg {
+        margin: -14px -37px -9px -23px;
+        float: left;
+        width: 900px;
+        background: white;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+      .show_result .rightbg {
+        background: #DBF3C8;
+      }
+      #footer {
+        clear: left;
+        margin-bottom: 2.618em;
+        padding: 14px 37px 9px 23px;
+      }
+      .code {
+        margin-bottom: 0.618em;
+      }
+      #sizegraph {
+        overflow: hidden;
+      }
+      #sizegraph img {
+        margin-left: -2px;
+        margin-bottom: -1px;
+      }
+    </style>
+    <!--[if IE]>
+    <style>
+      .section {
+        width: 900px;
+      }
+      .example,
+      .description,
+      .result {
+        width: 450px;
+      }
+    </style>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Nimble</h1>
+    <span class="download">
+      <strong>Download: </strong>
+      <a href="https://github.com/caolan/nimble/raw/master/nimble.js">Development</a> | <a href="https://github.com/caolan/nimble/raw/master/nimble.min.js">Production</a>
+      <span class="size">(807 bytes, minified and gzipped)</span>
+    </span>
+    <a href="https://github.com/caolan/nimble"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+
+    <div class="section" id="intro">
+      <p>
+      Functional flow-control for JavaScript, that is <strong>lightweight</strong>
+      and portable. Runs on <strong>Node.js</strong> and
+      <strong>cross-browser</strong>, providing a small set of powerful tools,
+      supporting <strong>sync and async</strong> JavaScript.
+      Combines the most useful features of the <a href="http://documentcloud.github.com/underscore/">underscore</a> and
+      <a href="https://github.com/caolan/async">async</a> libraries with a simple API and a vastly reduced filesize.
+      </p>
+      <p><a href="https://github.com/caolan/nimble">Nimble on GitHub</a> | <a href="http://twitter.com/caolan">Me on Twitter</a></p>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Map</h2>
+            <pre><code class="javascript">_.map([1, 2, 3], function (val) {
+    return val * 2;
+});</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              Map creates a new array by iterating over a list and applying a
+              transformation to each member.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Map objects</h2>
+      <pre><code class="javascript">_.map({a:1, b:2, c:3}, function (val, key) {
+    return key + '=' + val;
+});</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              Nimble's map function can also iterate over the properties of an
+              object.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Async map</h2>
+            <pre><code class="javascript">_.map([1, 2, 3], function (val, callback) {
+    callback(null, val * 2);
+},
+function (err, result) {
+    console.log(result);
+});</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              By adding a callback, you can perform asynchronous
+              operations, like AJAX requests or Node.js methods.
+            </p>
+            <p>
+              Like in Node.js, the first argument of the callback is an optional
+              error.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Filter</h2>
+            <pre><code class="javascript">_.filter([1, 2, 3], function (val) {
+    return val % 2;
+});
+</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              Filter creates a new list containing only the values for which the
+              function returns true. Here, we return the remainder of each value
+              when divided by two.
+            </p>
+            <p>
+              Like map, filter can also accept objects and use callbacks for
+              async operations.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Reduce</h2>
+            <pre><code class="javascript">_.reduce([1, 2, 3], function (memo, val) {
+    return memo + val;
+}, 0);
+</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              Reduce returns a single value by calling the function on each item,
+              passing in the previous result and the current item's value.
+            </p>
+            <p>
+              Reduce can also accept objects and use callbacks for async operations.
+              A start value is passed in as the 3rd argument.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Each</h2>
+            <pre><code class="javascript">_.each([1, 2, 3], function (val) {
+    console.log(val);
+}, 0);
+</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              If you just want to iterate over a list or object, you can use
+              each. Again, each can use callbacks for performing async operations.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Parallel</h2>
+            <pre><code class="javascript">_.parallel([
+    function (callback) {
+        setTimeout(function () {
+            console.log('one');
+            callback();
+        }, 25);
+    },
+    function (callback) {
+        setTimeout(function () {
+            console.log('two');
+            callback();
+        }, 0);
+    }
+]);
+</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              Nimble also contains some useful flow control functions.
+              Parallel will run a list of async functions all at the
+              same time.
+            </p>
+            <p>
+              You can also add a final callback to use once all functions
+              have completed as the second argument to _.parallel.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section code">
+      <div class="rightbg">
+        <div class="leftbg">
+          <div class="example">
+            <h2>Series</h2>
+            <pre><code class="javascript">_.series([
+    function (callback) {
+        setTimeout(function () {
+            console.log('one');
+            callback();
+        }, 25);
+    },
+    function (callback) {
+        setTimeout(function () {
+            console.log('two');
+            callback();
+        }, 0);
+    }
+]);
+</code></pre>
+          </div>
+          <div class="description">
+            <p>
+              Series works similarly to parallel, only it runs each function only
+              once the previous has finished.
+            </p>
+            <p>
+              Again, you can add a final callback to use once all functions
+              have completed.
+            </p>
+            <a href="#" class="runbtn button">Run code</a>
+          </div>
+          <div class="result">
+            <h2>Result</h2>
+            <pre><code class="no-highlight"></code></pre>
+            <a href="#" class="clearbtn button">Clear result</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Nimble is small</h2>
+      <div id="sizegraph">
+        <img src="https://chart.googleapis.com/chart?cht=bhs&chs=790x140&chd=t:3321,807|1859,0&chds=0,120&chco=4d89f9|00B88A,c6d9fd&chbh=60&chds=0,5500&chm=tunderscore,000000,0,0,16|tasync,000000,1,0,16|tnimble,000000,0,1,16" />
+      </div>
+      <p>
+        By adding only the most frequently used features, and designing the code
+        with minification and gzip compression in mind, Nimble is able to fit into
+        a tiny 807 bytes. Previously, I was including both underscore.js and
+        async.js, which adds up to over 5kb.
+      </p>
+    </div>
+
+    <div id="footer">
+      <a href="https://github.com/caolan/nimble/raw/master/nimble.min.js" class="button downloadbtn">Download Now</a> 
+      <a href="https://github.com/caolan/nimble" class="button">Watch on GitHub</a> 
+      <a href="http://twitter.com/caolan" class="button">Follow me on Twitter</a> 
+    </div>
+
+    <script src="nimble.js"></script>
+    <script src="site/json2.min.js"></script>
+    <script src="site/jquery-1.5.1.min.js"></script>
+    <script>
+      $('.code').each(function () {
+          var src = $('.example pre code', this).text();
+          var container = this;
+          $('.runbtn', this).click(function (ev) {
+              ev.preventDefault();
+              var _console = window.console;
+              var console = {
+                  log: function (msg) {
+                      if (_console) _console.log(msg);
+                      msgstr = JSON.stringify(msg);
+                      $('.result pre code', container).text(
+                        $('.result pre code', container).text() + msgstr + '\n'
+                      );
+                  }
+              };
+              var result = eval(src);
+              if (result !== undefined) {
+                console.log(result);
+              }
+              $(container).addClass('show_result');
+              return false;
+          });
+          $('.clearbtn', this).click(function (ev) {
+              ev.preventDefault();
+              $('.result pre code', container).text('');
+              $(container).removeClass('show_result');
+              return false;
+          });
+      });
+    </script>
+    <script src="site/highlight.min.js"></script>
+    <script>
+      hljs.initHighlighting();
+    </script>
+
+  </body>
+</html>

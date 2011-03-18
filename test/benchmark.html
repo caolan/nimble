@@ -1,0 +1,88 @@
+<script src="../nimble.js"></script>
+<script> nimble = _; </script>
+<script src="underscore.js"></script>
+<script> underscore = _; </script>
+<script src="JSLitmus.js"></script>
+<script>
+
+var numbers = [];
+var bigobj = {};
+for (var i=0; i<1000; i++) {
+  numbers.push(i);
+  bigobj[i] = i;
+}
+
+JSLitmus.test('underscore - each', function () {
+  var timesTwo = [];
+  underscore.each(numbers, function(num){ timesTwo.push(num * 2); });
+  return timesTwo;
+});
+
+JSLitmus.test('nimble - each', function () {
+  var timesTwo = [];
+  nimble.each(numbers, function(num){ timesTwo.push(num * 2); });
+  return timesTwo;
+});
+
+JSLitmus.test('underscore - each object', function () {
+  var timesTwo = [];
+  underscore.each(bigobj, function(num){ timesTwo.push(num * 2); });
+  return timesTwo;
+});
+
+JSLitmus.test('nimble - each object', function () {
+  var timesTwo = [];
+  nimble.each(bigobj, function(num){ timesTwo.push(num * 2); });
+  return timesTwo;
+});
+
+JSLitmus.test('underscore - map', function () {
+  return underscore.map(numbers, function(num){ return num * 2; });
+});
+
+JSLitmus.test('nimble - map', function () {
+  return nimble.map(numbers, function(num){ return num * 2; });
+});
+
+JSLitmus.test('underscore - map object', function () {
+  return underscore.map(bigobj, function(num){ return num * 2; });
+});
+
+JSLitmus.test('nimble - map object', function () {
+  return nimble.map(bigobj, function(num){ return num * 2; });
+});
+
+JSLitmus.test('underscore - filter', function () {
+  return underscore.filter(numbers, function(num){ return num % 2; });
+});
+
+JSLitmus.test('nimble - filter', function () {
+  return nimble.filter(numbers, function(num){ return num % 2; });
+});
+
+JSLitmus.test('underscore - filter object', function () {
+  return underscore.filter(bigobj, function(num){ return num % 2; });
+});
+
+JSLitmus.test('nimble - filter object', function () {
+  return nimble.filter(bigobj, function(num){ return num % 2; });
+});
+
+JSLitmus.test('underscore - reduce', function () {
+  return underscore.reduce(numbers, function(a,num){ return a + num; }, 0);
+});
+
+JSLitmus.test('nimble - reduce', function () {
+  return nimble.reduce(numbers, function(a,num){ return a + num; }, 0);
+});
+
+JSLitmus.test('underscore - reduce object', function () {
+  return underscore.reduce(bigobj, function(a,num){ return a + num; }, 0);
+});
+
+JSLitmus.test('nimble - reduce object', function () {
+  return nimble.reduce(bigobj, function(a,num){ return a + num; }, 0);
+});
+
+
+</script>
