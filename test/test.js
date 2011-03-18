@@ -39,6 +39,26 @@ exports['each - sync, object'] = function (test) {
     test.done();
 };
 
+exports['each - sync, unsupported objects'] = function (test) {
+    test.strictEqual(
+        _.each(null, function (v) { return v; }),
+        undefined
+    );
+    test.strictEqual(
+        _.each(undefined, function (v) { return v; }),
+        undefined
+    );
+    test.strictEqual(
+        _.each(123, function (v) { return v; }),
+        undefined
+    );
+    test.strictEqual(
+        _.each('asdf', function (v) { return v; }),
+        undefined
+    );
+    test.done();
+};
+
 exports['each - async'] = function (test) {
     var calls = [];
     _.each([1,2,3], function (value, index, arr, cb) {
@@ -140,6 +160,39 @@ exports['map - sync, object'] = function (test) {
         [2, 'b', obj],
         [3, 'c', obj]
     ]);
+    test.done();
+};
+
+exports['map - sync, unsupported objects'] = function (test) {
+    test.same(
+        _.map(null, function (v) { return v; }),
+        []
+    );
+    test.same(
+        _.map(undefined, function (v) { return v; }),
+        []
+    );
+    test.same(
+        _.map(123, function (v) { return v; }),
+        []
+    );
+    // IE does not support accessing of string chars by index
+    // and I don't consider it our job to alter this behaviour
+    if ('asdf'[0]) {
+        test.same(
+            _.map('asdf', function (v) { return v; }),
+            ['a','s','d','f']
+        );
+    }
+    else {
+        var r = _.map('asdf', function (v) { return v; });
+        // IE does some strange stuff to stop us testing using deepEqual
+        test.equal(r.length , 4);
+        test.ok(!r[0]);
+        test.ok(!r[1]);
+        test.ok(!r[2]);
+        test.ok(!r[3]);
+    }
     test.done();
 };
 
@@ -291,6 +344,34 @@ exports['filter - sync, object'] = function (test) {
     test.done();
 };
 
+exports['filter - sync, unsupported objects'] = function (test) {
+    test.same(
+        _.filter(null, function (v) { return v; }),
+        []
+    );
+    test.same(
+        _.filter(undefined, function (v) { return v; }),
+        []
+    );
+    test.same(
+        _.filter(123, function (v) { return v; }),
+        []
+    );
+    // IE does not support accessing of string chars by index
+    // and I don't consider it our job to alter this behaviour
+    if ('asdf'[0]) {
+        test.same(
+            _.filter('asdf', function (v) { return v; }),
+            ['a','s','d','f']
+        );
+    }
+    else {
+        var r = _.filter('asdf', function (v) { return v; });
+        test.same(r, []);
+    }
+    test.done();
+};
+
 exports['filter - sync, original untouched'] = function(test){
     var a = [3,1,2];
     var results = _.filter(a, function(x){
@@ -415,6 +496,34 @@ exports['reduce - sync, object'] = function (test) {
         [11, 2, 'b', obj],
         [13, 3, 'c', obj]
     ]);
+    test.done();
+};
+
+exports['reduce - sync, unsupported objects'] = function (test) {
+    test.strictEqual(
+        _.reduce(null, function (a,v) { return a + v; }, 'memo'),
+        'memo'
+    );
+    test.strictEqual(
+        _.reduce(undefined, function (a,v) { return a + v; }, 'memo'),
+        'memo'
+    );
+    test.strictEqual(
+        _.reduce(123, function (a,v) { return a + v; }, 'memo'),
+        'memo'
+    );
+    // IE does not support accessing of string chars by index
+    // and I don't consider it our job to alter this behaviour
+    if ('asdf'[0]) {
+        test.strictEqual(
+            _.reduce('asdf', function (a,v) { return a + v; }, 'memo'),
+            'memoasdf'
+        );
+    }
+    else {
+        var r = _.filter('asdf', function (v) { return v; });
+        test.same(r, 'memoundefinedundefinedundefinedundefined');
+    }
     test.done();
 };
 

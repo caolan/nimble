@@ -20,14 +20,10 @@
         return results;
     };
 
-    var isArray = Object.isArray || function(obj) {
-        return Object.prototype.toString.call(obj) === '[object Array]';
-    };
-
     var fallback = function (name, fallback) {
         var nativeFn = Array.prototype[name];
         return function (obj, iterator, memo) {
-            var fn = obj[name];
+            var fn = obj ? obj[name]: 0;
             return fn && fn === nativeFn ?
                 fn.call(obj, iterator, memo):
                 fallback(obj, iterator, memo);
@@ -35,13 +31,16 @@
     };
 
     var eachSync = fallback('forEach', function (obj, iterator) {
-        for (var i = 0, arr = keys(obj), len = arr.length; i < len; i++) {
-            iterator(obj[arr[i]], arr[i], obj);
+        var isObj = obj instanceof Object;
+        var arr = isObj ? keys(obj): (obj || []), i;
+        for (i = 0, len = arr.length; i < len; i++) {
+            var k = isObj ? arr[i]: i;
+            iterator(obj[k], k, obj);
         }
     });
 
     var eachParallel = function (obj, iterator, callback) {
-        var len = isArray(obj) ? obj.length: keys(obj).length;
+        var len = obj.length || keys(obj).length;
         if (!len) {
             return callback();
         }
