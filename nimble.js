@@ -32,8 +32,8 @@
 
     var eachSync = fallback('forEach', function (obj, iterator) {
         var isObj = obj instanceof Object;
-        var arr = isObj ? keys(obj): (obj || []), i;
-        for (i = 0, len = arr.length; i < len; i++) {
+        var arr = isObj ? keys(obj): (obj || []);
+        for (var i = 0, len = arr.length; i < len; i++) {
             var k = isObj ? arr[i]: i;
             iterator(obj[k], k, obj);
         }
