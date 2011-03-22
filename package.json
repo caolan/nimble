@@ -2,7 +2,7 @@
 , "description": "A really tiny functional JavaScript and async flow-control library"
 , "main": "./nimble"
 , "author": "Caolan McMahon"
-, "version": "0.0.1"
+, "version": "0.0.2"
 , "repository" :
   { "type" : "git"
   , "url" : "http://github.com/caolan/nimble.git"
