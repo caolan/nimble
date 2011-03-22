@@ -16,4 +16,7 @@ clean:
 	rm $(BUILDDIR)/nimble.min.js
 	rm $(BUILDDIR)/nimble.min.js.gzip
 
-.PHONY: clean test build all
+lint:
+	nodelint --config nodelint.cfg nimble.js
+
+.PHONY: clean test lint build all
