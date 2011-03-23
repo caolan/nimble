@@ -105,6 +105,16 @@ exports['each - async, reduced arity'] = function (test) {
     });
 };
 
+exports['each - async, zero arity'] = function (test) {
+    _.each([1,2,3], function () {
+        // should be passed the full set of arguments
+        test.equal(arguments.length, 4);
+        setTimeout(arguments[3], 0);
+    }, function () {
+        test.done();
+    });
+};
+
 exports['each - async, empty array'] = function(test){
     _.each([], function(x, callback){
         test.ok(false, 'iterator should not be called');
@@ -270,6 +280,16 @@ exports['map - async, reduced arity'] = function (test) {
         test.equal(err, null);
         test.same(result, [2,4,6]);
         test.same(calls, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['map - async, zero arity'] = function (test) {
+    _.map([1,2,3], function () {
+        // should be passed the full set of arguments
+        test.equal(arguments.length, 4);
+        setTimeout(arguments[3], 0);
+    }, function () {
         test.done();
     });
 };
@@ -440,6 +460,16 @@ exports['filter - async, reduced arity'] = function (test) {
     });
 };
 
+exports['filter - async, zero arity'] = function (test) {
+    _.filter([1,2,3], function () {
+        // should be passed the full set of arguments
+        test.equal(arguments.length, 4);
+        setTimeout(arguments[3], 0);
+    }, function () {
+        test.done();
+    });
+};
+
 exports['filter - async, original untouched'] = function(test){
     var a = [3,1,2];
     _.filter(a, function(x, callback){
@@ -570,7 +600,7 @@ exports['reduce - async, object'] = function (test) {
     });
 };
 
-exports['reduce - async, reduce arity'] = function (test) {
+exports['reduce - async, reduced arity'] = function (test) {
     _.reduce([1,2,3], function (a, value, cb) {
         setTimeout(function () {
             cb(null, a + value);
@@ -578,6 +608,16 @@ exports['reduce - async, reduce arity'] = function (test) {
     }, 10, function (err, result) {
         test.equal(err, null);
         test.equal(result, 16);
+        test.done();
+    });
+};
+
+exports['reduce - async, zero arity'] = function (test) {
+    _.reduce([1,2,3], function () {
+        // should be passed the full set of arguments
+        test.equal(arguments.length, 5);
+        setTimeout(arguments[4], 0);
+    }, 10, function () {
         test.done();
     });
 };

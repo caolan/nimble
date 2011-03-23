@@ -46,10 +46,7 @@
         }
         var completed = 0;
         eachSync(obj, function () {
-            var args = Array.prototype.slice.call(
-                arguments, 0, iterator.length - 1
-            );
-            args[iterator.length - 1] = function (err) {
+            var cb = function (err) {
                 if (err) {
                     callback(err);
                     callback = function () {};
@@ -59,6 +56,14 @@
                         callback();
                     }
                 }
+            };
+            var args = Array.prototype.slice.call(arguments);
+            if (iterator.length) {
+                var args = args.slice(0, iterator.length - 1);
+                args[iterator.length - 1] = cb;
+            }
+            else {
+                args.push(cb);
             };
             iterator.apply(this, args);
         });
@@ -104,11 +109,18 @@
         return function (obj, iterator, callback) {
             var results = [];
             eachfn(obj, function (value, i, obj, callback) {
-                var args = [value, i, obj].slice(0, iterator.length - 1);
-                args[iterator.length - 1] = function (err, v) {
+                var cb = function (err, v) {
                     results[results.length] = v;
                     callback(err);
                 };
+                var args = [value, i, obj];
+                if (iterator.length) {
+                    args = args.slice(0, iterator.length - 1);
+                    args[iterator.length - 1] = cb;
+                }
+                else {
+                    args.push(cb);
+                }
                 iterator.apply(this, args);
             }, function (err) {
                 callback(err, results);
@@ -129,13 +141,20 @@
     var filterParallel = function (obj, iterator, callback) {
         var results = [];
         eachParallel(obj, function (value, k, obj, callback) {
-            var args = [value, k, obj].slice(0, iterator.length - 1);
-            args[iterator.length - 1] = function (err, a) {
+            var cb = function (err, a) {
                 if (a) {
                     results[results.length] = value;
                 }
                 callback(err);
             };
+            var args = [value, k, obj];
+            if (iterator.length) {
+                args = args.slice(0, iterator.length - 1);
+                args[iterator.length - 1] = cb;
+            }
+            else {
+                args.push(cb);
+            }
             iterator.apply(this, args);
         }, function (err) {
             callback(err, results);
@@ -151,11 +170,18 @@
 
     var reduceSeries = function (obj, iterator, memo, callback) {
         eachSeries(obj, function (value, i, obj, callback) {
-            var args = [memo, value, i, obj].slice(0, iterator.length - 1);
-            args[iterator.length - 1] = function (err, v) {
+            var cb = function (err, v) {
                 memo = v;
                 callback(err);
             };
+            var args = [memo, value, i, obj];
+            if (iterator.length) {
+                args = args.slice(0, iterator.length - 1);
+                args[iterator.length - 1] = cb;
+            }
+            else {
+                args.push(cb);
+            }
             iterator.apply(this, args);
         }, function (err) {
             callback(err, memo);
