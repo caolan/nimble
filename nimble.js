@@ -216,12 +216,19 @@
 
     exports.series = function (fns, callback) {
         var results = new fns.constructor();
+        var lastResult;
         eachSeries(fns, function (fn, k, cb) {
-            fn(function (err, result) {
+            var args = [function (err, result) {
                 var v = Array.prototype.slice.call(arguments, 1);
-                results[k] = v.length <= 1 ? v[0]: v;
+                lastResult = results[k] = v.length <= 1 ? v[0]: v;
                 cb(err);
-            });
+            }];
+            if (fn.length === 3) {
+                args.unshift(lastResult, results);
+            } else if (fn.length === 2) {
+                args.unshift(lastResult);
+            }
+            fn.apply(null, args);
         }, function (err) {
             (callback || function () {})(err, results);
         });
