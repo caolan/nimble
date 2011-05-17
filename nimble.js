@@ -59,12 +59,12 @@
             };
             var args = Array.prototype.slice.call(arguments);
             if (iterator.length) {
-                var args = args.slice(0, iterator.length - 1);
+                args = args.slice(0, iterator.length - 1);
                 args[iterator.length - 1] = cb;
             }
             else {
                 args.push(cb);
-            };
+            }
             iterator.apply(this, args);
         });
     };
