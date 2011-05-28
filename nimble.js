@@ -191,6 +191,7 @@
     exports.each = function (obj, iterator, callback) {
         return (callback ? eachParallel: eachSync)(obj, iterator, callback);
     };
+    exports.eachSeries = eachSeries;
     exports.map = function (obj, iterator, callback) {
         return (callback ? mapAsync(eachParallel): mapSync)(obj, iterator, callback);
     };
