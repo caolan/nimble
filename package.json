@@ -7,7 +7,7 @@
   { "type" : "git"
   , "url" : "http://github.com/caolan/nimble.git"
   }
-, "bugs" : { "web" : "http://github.com/caolan/nimble/issues" }
+, "bugs" : { "url" : "http://github.com/caolan/nimble/issues" }
 , "licenses" :
   [ { "type" : "MIT"
     , "url" : "http://github.com/caolan/nimble/raw/master/LICENSE"
