@@ -8,7 +8,24 @@
  * readability. If you want reassurance, see the test suite.
  */
 
-(function (exports) {
+(function () {
+
+  // Handle the exporting
+  if(typeof exports === 'undefined') {
+    var previousUnderscore = this._;
+  }
+
+  var exports = typeof exports === 'undefined' ? this._ = this._ || {}: exports;
+
+
+  // Run nimble.js in *noConflict* mode, returning the `_` variable to
+  // its previous owner. Returns a reference to the nimble object.
+  // this is not very useful in CommonJS
+  exports.noConflict = function() {
+    this._ = previousUnderscore;
+    return this;
+  };
+  
 
     var keys = Object.keys || function (obj) {
         var results = [];
@@ -227,4 +244,4 @@
         });
     };
 
-}(typeof exports === 'undefined' ? this._ = this._ || {}: exports));
+}());
