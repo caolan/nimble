@@ -764,6 +764,43 @@ exports['series'] = function(test){
     });
 };
 
+
+exports['series extra info'] = function(test){
+    var call_order = [];
+    _.series([
+        function(last, callback){
+            setTimeout(function(){
+                call_order.push(1);
+                callback(null, 1);
+                test.equals(last, null);
+            }, 25);
+        },
+        function(last, callback){
+            setTimeout(function(){
+                call_order.push(2);
+                callback(null, 2);
+                test.equals(last, 1);
+            }, 50);
+        },
+        function(last, list, callback){
+            setTimeout(function(){
+                call_order.push(3);
+                test.same(list, [1,2]);
+                callback(null, 3,3);
+                test.equals(last, 2);
+            }, 15);
+        }
+    ],
+    function(err, results){
+        test.equals(err, null);
+        test.same(results, [1,2,[3,3]]);
+        test.same(call_order, [1,2,3]);
+        test.done();
+    });
+};
+
+
+
 exports['series empty array'] = function(test){
     _.series([], function(err, results){
         test.equals(err, null);
@@ -814,6 +851,44 @@ exports['series object'] = function(test){
         three: function(callback){
             setTimeout(function(){
                 call_order.push(3);
+                callback(null, 3,3);
+            }, 15);
+        }
+    },
+    function(err, results){
+        test.equals(err, null);
+        test.same(results, {
+            one: 1,
+            two: 2,
+            three: [3,3]
+        });
+        test.same(call_order, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['series object extra info'] = function(test){
+    var call_order = [];
+    _.series({
+        one: function(last, callback){
+            setTimeout(function(){
+                call_order.push(1);
+                test.equals(last, null);
+                callback(null, 1);
+            }, 25);
+        },
+        two: function(last, callback){
+            setTimeout(function(){
+                call_order.push(2);
+                test.equals(last, 1);
+                callback(null, 2);
+            }, 50);
+        },
+        three: function(last, list, callback){
+            setTimeout(function(){
+                call_order.push(3);
+                test.equals(last, 2);
+                test.same(list, {'one': 1, 'two': 2});
                 callback(null, 3,3);
             }, 15);
         }
