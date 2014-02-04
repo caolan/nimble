@@ -134,6 +134,71 @@ exports['each - async, error'] = function(test){
     });
 };
 
+exports['eachSeries - async'] = function (test) {
+    var calls = [];
+    _.eachSeries([1,2,3], function (value, index, arr, cb) {
+        calls.push(toArray(arguments).slice(0, 3));
+        setTimeout(cb, 0);
+    }, function () {
+        test.same(calls, [
+            [1, 0, [1,2,3]],
+            [2, 1, [1,2,3]],
+            [3, 2, [1,2,3]]
+        ]);
+        test.done();
+    });
+};
+
+exports['eachSeries - async, object'] = function (test) {
+    var calls = [];
+    var obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
+    _.eachSeries(obj, function (value, index, arr, cb) {
+        calls.push(toArray(arguments).slice(0, 3));
+        setTimeout(cb, 0);
+    }, function () {
+        test.same(calls, [
+            [1, 'a', obj],
+            [2, 'b', obj],
+            [3, 'c', obj]
+        ]);
+        test.done();
+    });
+};
+
+exports['eachSeries - async, reduced arity'] = function (test) {
+    var calls = [];
+    _.eachSeries([1,2,3], function (value, cb) {
+        calls.push(value);
+        setTimeout(cb, 0);
+    }, function () {
+        test.same(calls, [1,2,3]);
+        test.done();
+    });
+};
+
+exports['eachSeries - async, empty array'] = function(test){
+    _.eachSeries([], function(x, callback){
+        test.ok(false, 'iterator should not be called');
+        callback();
+    }, function(err){
+        test.ok(true, 'should call callback');
+        test.done();
+    });
+};
+
+exports['eachSeries - async, error'] = function(test){
+    _.eachSeries([1,2,3], function(x, callback){
+        callback('error');
+    }, function(err){
+        test.equals(err, 'error');
+        test.done();
+    });
+};
+
 exports['map - sync'] = function (test) {
     var calls = [];
     test.same(
